@@ -45,11 +45,11 @@ class _PreloaderScreenState extends State<PreloaderScreen> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xFF59CAEB),
-              Color(0xFF20D7ED),
-              Color(0xFF00E2E6),
-              Color(0xFF00EDD7),
-              Color(0xFF00F6C0),
+              Color(0xFF4D48B4),
+              Color(0xFF2023ED),
+              Color(0xFF1700E6),
+              Color(0xFF0047ED),
+              Color(0xFF745CFF),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,

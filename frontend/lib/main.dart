@@ -1,6 +1,6 @@
-import 'package:sales_force_app/views/core/app_bindings.dart';
+import 'package:sales_force_app/views/constants/app_bindings.dart';
 import 'package:sales_force_app/views/outlets/outlets_screen.dart';
-import 'package:sales_force_app/views/core/preloader_screen.dart';
+import 'package:sales_force_app/views/constants/preloader_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
