@@ -1,31 +1,52 @@
-name: AI Commit & Merge Assistant
+import git
+import os
+import openai
+import subprocess
 
-on:
-  push:
-    branches:
-      - develop
-  pull_request:
-    branches:
-      - main
+# Set OpenAI API key
+openai.api_key = os.environ.get("OPENAI_API_KEY")
 
-jobs:
-  analyze_and_merge:
-    runs-on: ubuntu-latest
+# Open repo
+repo = git.Repo(".")
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+# Branches
+source_branch = "develop"
+target_branch = "main"
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
+# Fetch latest changes
+repo.git.fetch()
 
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
+# Checkout target branch
+repo.git.checkout(target_branch)
+repo.git.pull()
 
-      - name: Run AI merge script
-        run: python scripts/ai_merge.py
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+# Attempt merge from source branch
+try:
+    repo.git.merge(source_branch, "--no-commit", "--no-ff")
+    print(f"✅ {source_branch} merged into {target_branch} without conflicts.")
+    repo.git.commit("-m", f"AI merge: {source_branch} → {target_branch}")
+except git.exc.GitCommandError as e:
+    # Conflict detected
+    print(f"⚠️ Conflicts detected during merge:\n{e}")
+
+    # Get list of conflicting files
+    conflict_files = repo.index.unmerged_blobs().keys()
+    for file in conflict_files:
+        print(f"\nAnalyzing conflict in: {file}")
+        with open(file, "r", encoding="utf-8", errors="ignore") as f:
+            content = f.read()
+        
+        # Ask AI to suggest resolution
+        response = openai.ChatCompletion.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "user",
+                 "content": f"The following file has a merge conflict between branches {source_branch} and {target_branch}. Suggest a safe resolution:\n\n{content}"}
+            ]
+        )
+        suggestion = response['choices'][0]['message']['content']
+        print(f"AI suggestion for {file}:\n{suggestion}\n{'-'*50}")
+
+    print("⚠️ Manual intervention may still be required. AI suggestions above can guide the fix.")
+    # Abort merge to keep repo clean
+    repo.git.merge("--abort")
