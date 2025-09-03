@@ -1,10 +1,10 @@
 // ignore_for_file: library_private_types_in_public_api
 
-import 'package:Sales_Force_App/components/views/admin/dashboard/super_admin_dashboard.dart';
+import 'package:Sales_Force_App/views/admin/dashboard/super_admin_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:Sales_Force_App/controllers/auth_controller.dart';
-import 'package:Sales_Force_App/components/views/login/login_screen.dart';
+import 'package:Sales_Force_App/views/login/login_screen.dart';
 
 class PreloaderScreen extends StatefulWidget {
   @override

@@ -1,5 +1,5 @@
 import 'package:Sales_Force_App/controllers/time_controller.dart';
-import 'package:Sales_Force_App/components/views/employee/profile_scree.dart';
+import 'package:Sales_Force_App/views/employee/profile_scree.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:Sales_Force_App/controllers/auth_controller.dart';

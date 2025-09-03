@@ -1,6 +1,6 @@
 // ignore_for_file: unused_element
 
-import 'package:Sales_Force_App/components/views/employee/profile_scree.dart';
+import 'package:Sales_Force_App/views/employee/profile_scree.dart';
 import 'package:flutter/material.dart';
 
 class _UserProfilePageState extends State<UserProfilePage>

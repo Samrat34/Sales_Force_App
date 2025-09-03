@@ -1,6 +1,6 @@
-import 'package:Sales_Force_App/components/views/common/app_drawer.dart';
-import 'package:Sales_Force_App/components/views/outlets/components/outlet_list.dart';
-import 'package:Sales_Force_App/components/views/outlets/components/search_section.dart';
+import 'package:Sales_Force_App/views/constants/app_drawer.dart';
+import 'package:Sales_Force_App/views/outlets/components/outlet_list.dart';
+import 'package:Sales_Force_App/views/outlets/components/search_section.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:Sales_Force_App/controllers/outlet_controller.dart';

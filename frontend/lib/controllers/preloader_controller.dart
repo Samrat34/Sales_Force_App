@@ -1,4 +1,4 @@
-import 'package:Sales_Force_App/components/views/login/login_screen.dart';
+import 'package:Sales_Force_App/views/login/login_screen.dart';
 import 'package:get/get.dart';
 
 class PreloaderController extends GetxController {

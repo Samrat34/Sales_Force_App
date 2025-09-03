@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:Sales_Force_App/database/database_helper.dart';
 import 'package:Sales_Force_App/models/user_model.dart';
-import 'package:Sales_Force_App/components/views/core/preloader_screen.dart';
+import 'package:Sales_Force_App/views/core/preloader_screen.dart';
 
 class AuthController extends GetxController {
   var isLoading = false.obs;
