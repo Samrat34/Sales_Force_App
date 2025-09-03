@@ -1,52 +1,50 @@
-import git
 import os
 import openai
-import subprocess
+from github import Github
+import git
 
 # Set OpenAI API key
 openai.api_key = os.environ.get("OPENAI_API_KEY")
+github_token = os.environ.get("GITHUB_TOKEN")
 
-# Open repo
-repo = git.Repo(".")
+# Get PR info from environment (GitHub Actions provides these)
+pr_number = int(os.environ.get("GITHUB_REF").split("/")[-1])
+repo_name = os.environ.get("GITHUB_REPOSITORY")
+
+# Connect to GitHub
+g = Github(github_token)
+repo = g.get_repo(repo_name)
+pr = repo.get_pull(pr_number)
+
+# Open local git repo
+local_repo = git.Repo(".")
 
 # Branches
-source_branch = "develop"
-target_branch = "main"
-
-# Fetch latest changes
-repo.git.fetch()
+source_branch = pr.head.ref
+target_branch = pr.base.ref
 
 # Checkout target branch
-repo.git.checkout(target_branch)
-repo.git.pull()
+local_repo.git.checkout(target_branch)
+local_repo.git.pull()
 
-# Attempt merge from source branch
 try:
-    repo.git.merge(source_branch, "--no-commit", "--no-ff")
-    print(f"✅ {source_branch} merged into {target_branch} without conflicts.")
-    repo.git.commit("-m", f"AI merge: {source_branch} → {target_branch}")
+    local_repo.git.merge(source_branch, "--no-commit", "--no-ff")
+    pr.create_issue_comment(f"✅ Branch `{source_branch}` merged into `{target_branch}` without conflicts.")
+    local_repo.git.commit("-m", f"AI merge: {source_branch} → {target_branch}")
 except git.exc.GitCommandError as e:
-    # Conflict detected
-    print(f"⚠️ Conflicts detected during merge:\n{e}")
-
-    # Get list of conflicting files
-    conflict_files = repo.index.unmerged_blobs().keys()
+    conflict_files = local_repo.index.unmerged_blobs().keys()
+    comments = "⚠️ Conflicts detected during merge. AI suggestions:\n\n"
     for file in conflict_files:
-        print(f"\nAnalyzing conflict in: {file}")
         with open(file, "r", encoding="utf-8", errors="ignore") as f:
             content = f.read()
-        
-        # Ask AI to suggest resolution
         response = openai.ChatCompletion.create(
             model="gpt-4o-mini",
             messages=[
                 {"role": "user",
-                 "content": f"The following file has a merge conflict between branches {source_branch} and {target_branch}. Suggest a safe resolution:\n\n{content}"}
+                 "content": f"Suggest a safe resolution for this merge conflict in {file}:\n\n{content}"}
             ]
         )
         suggestion = response['choices'][0]['message']['content']
-        print(f"AI suggestion for {file}:\n{suggestion}\n{'-'*50}")
-
-    print("⚠️ Manual intervention may still be required. AI suggestions above can guide the fix.")
-    # Abort merge to keep repo clean
-    repo.git.merge("--abort")
+        comments += f"**File:** `{file}`\n```\n{suggestion}\n```\n"
+    pr.create_issue_comment(comments)
+    local_repo.git.merge("--abort")
