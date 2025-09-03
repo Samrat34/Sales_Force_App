@@ -1,7 +1,7 @@
 // components/outlets/components/status_bar.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:Sales_Force_App/controllers/outlet_controller.dart';
+import 'package:sales_force_app/controllers/outlet_controller.dart';
 
 class StatusBar extends StatelessWidget {
   final OutletController controller;

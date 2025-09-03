@@ -1,6 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:Sales_Force_App/models/user_model.dart';
+import 'package:sales_force_app/models/user_model.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper._internal();
@@ -16,7 +16,7 @@ class DatabaseHelper {
   }
 
   Future<Database> _initDatabase() async {
-    String path = join(await getDatabasesPath(), 'Sales_Force_App.db');
+    String path = join(await getDatabasesPath(), 'sales_force_app.db');
     return await openDatabase(
       path,
       version: 2,
@@ -28,7 +28,7 @@ class DatabaseHelper {
   // Reset database (delete old DB) - for development/testing
   Future<void> resetDatabase() async {
     final dbPath = await getDatabasesPath();
-    final path = join(dbPath, 'Sales_Force_App.db');
+    final path = join(dbPath, 'sales_force_app.db');
     await deleteDatabase(path);
     _database = null;
   }
@@ -52,19 +52,19 @@ class DatabaseHelper {
       'role': 'super_admin'
     });
     await db.insert('users', {
-      'name': 'Client One',
+      'name': 'Client User',
       'email': 'client@test.com',
       'password': '123456',
       'role': 'client'
     });
     await db.insert('users', {
-      'name': 'Employee One',
+      'name': 'Employee User',
       'email': 'employee@test.com',
       'password': '123456',
       'role': 'employee'
     });
     await db.insert('users', {
-      'name': 'Customer One',
+      'name': 'Customer User',
       'email': 'customer@test.com',
       'password': '123456',
       'role': 'customer'
@@ -75,6 +75,9 @@ class DatabaseHelper {
     if (oldVersion < 2) {
       await db.execute(
           "ALTER TABLE users ADD COLUMN role TEXT NOT NULL DEFAULT 'customer'");
+
+      // Update existing records with default role
+      await db.update('users', {'role': 'customer'});
     }
   }
 
@@ -91,6 +94,19 @@ class DatabaseHelper {
       'users',
       where: 'email = ?',
       whereArgs: [email.trim()],
+    );
+
+    if (maps.isNotEmpty) return User.fromMap(maps.first);
+    return null;
+  }
+
+  // Get a user by ID
+  Future<User?> getUserById(int id) async {
+    Database db = await database;
+    List<Map<String, dynamic>> maps = await db.query(
+      'users',
+      where: 'id = ?',
+      whereArgs: [id],
     );
 
     if (maps.isNotEmpty) return User.fromMap(maps.first);
@@ -136,5 +152,16 @@ class DatabaseHelper {
       where: 'id = ?',
       whereArgs: [id],
     );
+  }
+
+  // Check if email already exists
+  Future<bool> emailExists(String email) async {
+    Database db = await database;
+    List<Map<String, dynamic>> maps = await db.query(
+      'users',
+      where: 'email = ?',
+      whereArgs: [email.trim()],
+    );
+    return maps.isNotEmpty;
   }
 }

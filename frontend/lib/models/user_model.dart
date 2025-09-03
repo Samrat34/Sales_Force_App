@@ -32,4 +32,26 @@ class User {
       role: map['role'] ?? 'customer',
     );
   }
+
+  @override
+  String toString() {
+    return 'User{id: $id, name: $name, email: $email, role: $role}';
+  }
+
+  // Copy with method for updates
+  User copyWith({
+    int? id,
+    String? name,
+    String? email,
+    String? password,
+    String? role,
+  }) {
+    return User(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      password: password ?? this.password,
+      role: role ?? this.role,
+    );
+  }
 }

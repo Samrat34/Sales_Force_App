@@ -1,9 +1,9 @@
-import 'package:Sales_Force_App/views/constants/app_drawer.dart';
-import 'package:Sales_Force_App/views/outlets/components/outlet_list.dart';
-import 'package:Sales_Force_App/views/outlets/components/search_section.dart';
+import 'package:sales_force_app/views/constants/app_drawer.dart';
+import 'package:sales_force_app/views/outlets/components/outlet_list.dart';
+import 'package:sales_force_app/views/outlets/components/search_section.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:Sales_Force_App/controllers/outlet_controller.dart';
+import 'package:sales_force_app/controllers/outlet_controller.dart';
 
 class OutletScreen extends StatelessWidget {
   final OutletController outletController = Get.put(OutletController());

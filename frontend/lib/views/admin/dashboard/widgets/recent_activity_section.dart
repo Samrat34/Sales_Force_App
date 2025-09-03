@@ -1,4 +1,4 @@
-import 'package:Sales_Force_App/views/admin/dashboard/widgets/activity_item.dart';
+import 'package:sales_force_app/views/admin/dashboard/widgets/activity_item.dart';
 import 'package:flutter/material.dart';
 
 class RecentActivitySection extends StatelessWidget {

@@ -1,4 +1,4 @@
-# Sales_Force_App
+# sales_force_app
 
 A new Flutter project.
 

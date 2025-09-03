@@ -1,115 +1,137 @@
-import 'package:Sales_Force_App/views/admin/dashboard/super_admin_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:Sales_Force_App/controllers/auth_controller.dart';
-// import 'package:Sales_Force_App/components/views/core/dashboard_screen.dart'; // <-- Add this
+import 'package:sales_force_app/controllers/login_controller.dart';
 
-class LoginForm extends StatelessWidget {
-  final AuthController _authController = Get.put(AuthController());
+class LoginForm extends StatefulWidget {
+  @override
+  _LoginFormState createState() => _LoginFormState();
+}
 
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+class _LoginFormState extends State<LoginForm> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final LoginController _loginController = Get.put(LoginController());
+  bool _obscurePassword = true;
 
-  final RxString selectedRole = 'super_admin'.obs; // default role selection
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Container(
-        padding: EdgeInsets.all(25),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.15),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Column(
-          children: [
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                labelText: 'Email',
-                labelStyle: TextStyle(color: Colors.white),
-                prefixIcon: Icon(Icons.email, color: Colors.white),
-              ),
-              style: TextStyle(color: Colors.white),
-            ),
-            SizedBox(height: 15),
-            TextField(
-              controller: _passwordController,
-              obscureText: !_authController.isPasswordVisible.value,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                labelStyle: TextStyle(color: Colors.white),
-                prefixIcon: Icon(Icons.lock, color: Colors.white),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _authController.isPasswordVisible.value
-                        ? Icons.visibility
-                        : Icons.visibility_off,
-                    color: Colors.white70,
+    return Obx(() => Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              TextFormField(
+                controller: _emailController,
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  hintText: 'Enter your email',
+                  prefixIcon: Icon(Icons.email, color: Colors.white70),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
                   ),
-                  onPressed: () => _authController.togglePasswordVisibility(),
+                  filled: true,
+                  fillColor: Colors.white.withOpacity(0.9),
                 ),
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your email';
+                  }
+                  if (!value.contains('@')) {
+                    return 'Please enter a valid email';
+                  }
+                  return null;
+                },
               ),
-              style: TextStyle(color: Colors.white),
-            ),
-            SizedBox(height: 15),
-
-            // Role selection dropdown
-            DropdownButtonFormField<String>(
-              value: selectedRole.value,
-              dropdownColor: Colors.black54,
-              decoration: InputDecoration(
-                labelText: 'Role',
-                labelStyle: TextStyle(color: Colors.white),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white70),
-                ),
-              ),
-              style: TextStyle(color: Colors.white),
-              items: [
-                DropdownMenuItem(
-                    value: 'super_admin', child: Text('Super Admin')),
-                DropdownMenuItem(value: 'client', child: Text('Client')),
-                DropdownMenuItem(value: 'employee', child: Text('Employee')),
-                DropdownMenuItem(value: 'customer', child: Text('Customer')),
-              ],
-              onChanged: (value) {
-                if (value != null) selectedRole.value = value;
-              },
-            ),
-
-            SizedBox(height: 20),
-            _authController.isLoading.value
-                ? CircularProgressIndicator(color: Colors.white)
-                : ElevatedButton(
-                    onPressed: () async {
-                      bool success = await _authController.login(
-                        _emailController.text.trim(),
-                        _passwordController.text.trim(),
-                      );
-
-                      if (success) {
-                        // Check role matches selection
-                        if (_authController.getUserRole() !=
-                            selectedRole.value) {
-                          Get.snackbar('Error',
-                              'Selected role does not match your account role');
-                          _authController.logout();
-                        } else {
-                          Get.offAll(() => SuperAdminDashboard());
-                        }
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.cyanAccent,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+              SizedBox(height: 16),
+              TextFormField(
+                controller: _passwordController,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  hintText: 'Enter your password',
+                  prefixIcon: Icon(Icons.lock, color: Colors.white70),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscurePassword
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Colors.white70,
                     ),
-                    child: Text('Login', style: TextStyle(fontSize: 16)),
+                    onPressed: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
                   ),
-          ],
-        ),
-      ),
-    );
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
+                  ),
+                  filled: true,
+                  fillColor: Colors.white.withOpacity(0.9),
+                ),
+                obscureText: _obscurePassword,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your password';
+                  }
+                  if (value.length < 6) {
+                    return 'Password must be at least 6 characters';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 24),
+              _loginController.isLoading.value
+                  ? CircularProgressIndicator(color: Colors.white)
+                  : SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            _loginController.login(
+                              _emailController.text.trim(),
+                              _passwordController.text.trim(),
+                            );
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.blue.shade800,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          elevation: 4,
+                        ),
+                        child: Text(
+                          'LOGIN',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+              SizedBox(height: 16),
+              Text(
+                'Demo Accounts:\n'
+                'Admin: admin@test.com / 123456\n'
+                'Customer: customer@test.com / 123456\n'
+                'Employee: employee@test.com / 123456',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white70, fontSize: 12),
+              ),
+            ],
+          ),
+        ));
   }
 }

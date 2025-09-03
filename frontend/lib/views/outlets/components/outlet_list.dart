@@ -1,8 +1,8 @@
 // components/views/outlets/components/outlet_list.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:Sales_Force_App/controllers/outlet_controller.dart';
-import 'package:Sales_Force_App/models/outlet_model.dart';
+import 'package:sales_force_app/controllers/outlet_controller.dart';
+import 'package:sales_force_app/models/outlet_model.dart';
 
 class OutletList extends StatelessWidget {
   final OutletController controller;

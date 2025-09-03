@@ -1,4 +1,4 @@
-name: Sales_Force_App
+name: sales_force_app
 description: A Flutter mobile dashboard application
 
 publish_to: 'none'
@@ -19,6 +19,7 @@ dependencies:
   flutter_vector_icons: ^2.0.0
   image_picker: ^0.8.7+4
   http: ^1.1.0
+  intl: ^0.20.2
   
 
 dev_dependencies:

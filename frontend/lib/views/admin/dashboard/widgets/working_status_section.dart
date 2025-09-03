@@ -1,4 +1,4 @@
-import 'package:Sales_Force_App/views/constants/colors.dart';
+import 'package:sales_force_app/views/constants/colors.dart';
 import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
 

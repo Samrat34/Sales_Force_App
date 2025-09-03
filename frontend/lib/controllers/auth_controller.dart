@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:Sales_Force_App/database/database_helper.dart';
-import 'package:Sales_Force_App/models/user_model.dart';
-import 'package:Sales_Force_App/views/core/preloader_screen.dart';
+import 'package:sales_force_app/database/database_helper.dart';
+import 'package:sales_force_app/models/user_model.dart';
+import 'package:sales_force_app/views/core/preloader_screen.dart';
 
 class AuthController extends GetxController {
   var isLoading = false.obs;

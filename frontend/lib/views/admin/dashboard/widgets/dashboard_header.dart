@@ -1,8 +1,8 @@
-import 'package:Sales_Force_App/controllers/time_controller.dart';
-import 'package:Sales_Force_App/views/employee/profile_scree.dart';
+import 'package:sales_force_app/controllers/time_controller.dart';
+import 'package:sales_force_app/views/admin/profile/profile_scree.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:Sales_Force_App/controllers/auth_controller.dart';
+import 'package:sales_force_app/controllers/auth_controller.dart';
 
 enum MenuAction { profile, settings, logout }
 

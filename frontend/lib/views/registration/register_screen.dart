@@ -1,9 +1,9 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:Sales_Force_App/views/constants/colors.dart';
-import 'package:Sales_Force_App/widgets/custom_textfield.dart';
-import 'package:Sales_Force_App/controllers/auth_controller.dart';
-import 'package:Sales_Force_App/models/user_model.dart';
+import 'package:sales_force_app/views/constants/colors.dart';
+import 'package:sales_force_app/widgets/custom_textfield.dart';
+import 'package:sales_force_app/controllers/auth_controller.dart';
+import 'package:sales_force_app/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

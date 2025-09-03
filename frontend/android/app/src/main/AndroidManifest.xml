@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="Sales_Force_App"
+        android:label="sales_force_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

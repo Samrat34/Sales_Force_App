@@ -1,6 +1,6 @@
 // controllers/outlet_controller.dart
 import 'package:get/get.dart';
-import 'package:Sales_Force_App/models/outlet_model.dart';
+import 'package:sales_force_app/models/outlet_model.dart';
 
 class OutletController extends GetxController {
   var outlets = <Outlet>[].obs;

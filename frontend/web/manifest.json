@@ -1,6 +1,6 @@
 {
-    "name": "Sales_Force_App",
-    "short_name": "Sales_Force_App",
+    "name": "sales_force_app",
+    "short_name": "sales_force_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
