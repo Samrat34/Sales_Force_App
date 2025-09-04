@@ -1,342 +1,349 @@
-import 'package:sales_force_app/controllers/time_controller.dart';
-import 'package:sales_force_app/views/admin/profile/profile_scree.dart';
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sales_force_app/controllers/auth_controller.dart';
+import 'package:sales_force_app/controllers/login_controller.dart';
+import 'package:sales_force_app/views/admin/profile/profile_scree.dart';
 
-enum MenuAction { profile, settings, logout }
-
-class DashboardHeader extends StatelessWidget {
+class DashboardHeader extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
 
   const DashboardHeader({super.key, required this.scaffoldKey});
 
   @override
-  Widget build(BuildContext context) {
-    final AuthController authController = Get.put(AuthController());
-    final TimeController timeController = Get.put(TimeController());
+  _DashboardHeaderState createState() => _DashboardHeaderState();
+}
 
+class _DashboardHeaderState extends State<DashboardHeader> {
+  bool _isNotificationHovered = false;
+  bool _isProfileHovered = false;
+  final LoginController _loginController = Get.find<LoginController>();
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Color.fromRGBO(255, 255, 255, 1),
-        border: Border(
-          bottom: BorderSide(color: Color.fromRGBO(218, 214, 214, 0.58)),
-        ),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
-            color: Color.fromRGBO(0, 0, 0, 0.098),
-            blurRadius: 6,
+            color: Colors.black12,
+            blurRadius: 10,
             offset: Offset(0, 4),
           ),
         ],
       ),
-      child: Column(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Top row with menu, title, and action buttons
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Left side: Menu button and title
-              Row(
-                children: [
-                  Container(
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [Color(0xFF3B82F6), Color(0xFF805AD5)],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      ),
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color.fromRGBO(0, 0, 0, 0.1),
-                          blurRadius: 4,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(12),
-                        onTap: () => scaffoldKey.currentState?.openDrawer(),
-                        child: Icon(
-                          Icons.menu,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 12),
-                  ShaderMask(
-                    shaderCallback: (bounds) => LinearGradient(
-                      colors: [Color(0xFF2563EB), Color(0xFF805AD5)],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    ).createShader(bounds),
-                    child: Text(
-                      'SalesForce CRM',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
+          // Menu button
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFF3B82F6), Color(0xFF805AD5)],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
               ),
-
-              // Right side: Notification and profile buttons
-              Row(
-                children: [
-                  // Notification
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color.fromRGBO(255, 255, 255, 1),
-                          blurRadius: 4,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: Stack(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Color.fromRGBO(255, 255, 255, 1),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Icon(
-                            Icons.notifications_none,
-                            color: Color.fromRGBO(0, 62, 162, 1),
-                            size: 20,
-                          ),
-                        ),
-                        Positioned(
-                          top: 4,
-                          right: 4,
-                          child: Container(
-                            width: 18,
-                            height: 18,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [Color(0xFFEF4444), Color(0xFFDC2626)],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Color.fromRGBO(255, 255, 255, 1),
-                                  blurRadius: 2,
-                                  offset: Offset(0, 1),
-                                ),
-                              ],
-                            ),
-                            child: Center(
-                              child: Text(
-                                '12',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: 8),
-                  // Profile
-                  Container(
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [Color(0xFF3B82F6), Color(0xFF805AD5)],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      ),
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color.fromRGBO(255, 255, 255, 1),
-                          blurRadius: 4,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: PopupMenuButton<MenuAction>(
-                      offset: Offset(0, 50),
-                      onSelected: (value) {
-                        switch (value) {
-                          case MenuAction.profile:
-                            Get.to(() => UserProfilePage());
-                            break;
-                          case MenuAction.settings:
-                            break;
-                          case MenuAction.logout:
-                            authController.logout();
-                            break;
-                        }
-                      },
-                      itemBuilder: (context) => [
-                        PopupMenuItem<MenuAction>(
-                          value: MenuAction.profile,
-                          child: Row(
-                            children: [
-                              Icon(Icons.person,
-                                  size: 20, color: Colors.grey[700]),
-                              SizedBox(width: 8),
-                              Text('Profile'),
-                            ],
-                          ),
-                        ),
-                        PopupMenuItem<MenuAction>(
-                          value: MenuAction.settings,
-                          child: Row(
-                            children: [
-                              Icon(Icons.settings,
-                                  size: 20, color: Colors.grey[700]),
-                              SizedBox(width: 8),
-                              Text('Settings'),
-                            ],
-                          ),
-                        ),
-                        PopupMenuItem<MenuAction>(
-                          value: MenuAction.logout,
-                          child: Row(
-                            children: [
-                              Icon(Icons.logout,
-                                  size: 20, color: Colors.grey[700]),
-                              SizedBox(width: 8),
-                              Text('Logout'),
-                            ],
-                          ),
-                        ),
-                      ],
-                      child: Icon(Icons.person_outline,
-                          color: Colors.white, size: 20),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Color.fromRGBO(0, 0, 0, 0.1),
+                  blurRadius: 4,
+                  offset: Offset(0, 2),
+                ),
+              ],
+            ),
+            child: IconButton(
+              icon: Icon(Icons.menu, color: Colors.white),
+              onPressed: () => widget.scaffoldKey.currentState?.openDrawer(),
+            ),
           ),
 
-          SizedBox(height: 16),
+          // Title
+          Text(
+            "Admin Dashboard",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.blue[800],
+            ),
+          ),
 
-          // Status bar with drop shadows
+          // Right side buttons
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  // Available status
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(163, 249, 222, 0.69),
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color.fromRGBO(255, 255, 255, 1),
-                          blurRadius: 2,
-                          offset: Offset(0, 1),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 8,
-                          height: 8,
-                          decoration: BoxDecoration(
-                            color: Color(0xFF10B981),
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        SizedBox(width: 6),
-                        Text(
-                          'Available',
-                          style: TextStyle(
-                            color: Color(0xFF065F46),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: 8),
-                  // Visits status
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(197, 221, 251, 1),
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color.fromRGBO(0, 0, 0, 0.1),
-                          blurRadius: 2,
-                          offset: Offset(0, 1),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(Icons.store, size: 14, color: Color(0xFF2563EB)),
-                        SizedBox(width: 6),
-                        Text(
-                          '0 visits',
-                          style: TextStyle(
-                            color: Color(0xFF1E40AF),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-
-              // Time with drop shadow (real-time)
-              Obx(() => Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(193, 221, 253, 1),
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color.fromRGBO(0, 0, 0, 0.1),
-                          blurRadius: 2,
-                          offset: Offset(0, 1),
-                        ),
-                      ],
-                    ),
-                    child: Text(
-                      timeController.currentTime.value,
-                      style: TextStyle(
-                        color: Color(0xFF5B21B6),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  )),
+              _buildNotificationButton(),
+              SizedBox(width: 16),
+              _buildProfileButton(),
             ],
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildNotificationButton() {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isNotificationHovered = true),
+      onExit: (_) => setState(() => _isNotificationHovered = false),
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 200),
+        transform: _isNotificationHovered
+            ? (Matrix4.identity()..scale(1.1))
+            : Matrix4.identity(),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: Colors.white.withOpacity(0.1),
+          ),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: _showNotifications,
+              borderRadius: BorderRadius.circular(12),
+              child: Container(
+                padding: EdgeInsets.all(8),
+                child: Stack(
+                  children: [
+                    // Bell Icon
+                    Icon(
+                      Icons.notifications_none,
+                      size: 24,
+                      color: Colors.grey[700],
+                    ),
+
+                    // Notification Badge
+                    Positioned(
+                      top: -2,
+                      right: -2,
+                      child: Container(
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Colors.red, Colors.orange],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.red.withOpacity(0.3),
+                              blurRadius: 4,
+                              spreadRadius: 1,
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            '12',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProfileButton() {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isProfileHovered = true),
+      onExit: (_) => setState(() => _isProfileHovered = false),
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 200),
+        transform: _isProfileHovered
+            ? (Matrix4.identity()..scale(1.1))
+            : Matrix4.identity(),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            gradient: LinearGradient(
+              colors: [Colors.blue[500]!, Colors.purple[600]!],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.blue.withOpacity(0.3),
+                blurRadius: 8,
+                spreadRadius: 2,
+              ),
+            ],
+          ),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: _showProfileMenu,
+              borderRadius: BorderRadius.circular(12),
+              child: Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Center(
+                  child: Text(
+                    '👨‍💼',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showNotifications() {
+    // Show notifications panel or navigate to notifications screen
+    Get.snackbar(
+      'Notifications',
+      'You have 12 unread notifications',
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.blue[50],
+      colorText: Colors.blue[900],
+    );
+  }
+
+  void _showProfileMenu() {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        return Container(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircleAvatar(
+                radius: 40,
+                backgroundColor: Colors.blue[100],
+                child: Text(
+                  '👨‍💼',
+                  style: TextStyle(fontSize: 32),
+                ),
+              ),
+              SizedBox(height: 16),
+              Text(
+                _loginController.user?.name ?? 'Super Admin',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 8),
+              Text(
+                _loginController.user?.email ?? 'admin@company.com',
+                style: TextStyle(color: Colors.grey[600]),
+              ),
+              SizedBox(height: 24),
+
+              // Profile Options
+              _buildProfileOption('Profile Settings', Icons.person,
+                  onTap: _navigateToProfile),
+              _buildProfileOption('Account Settings', Icons.settings,
+                  onTap: _showAccountSettings),
+              _buildProfileOption('Help & Support', Icons.help,
+                  onTap: _showHelpSupport),
+              _buildProfileOption('Logout', Icons.logout,
+                  onTap: _handleLogout, isLogout: true),
+
+              SizedBox(height: 16),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildProfileOption(String title, IconData icon,
+      {bool isLogout = false, required VoidCallback onTap}) {
+    return ListTile(
+      leading: Icon(icon, color: isLogout ? Colors.red : Colors.blue),
+      title: Text(
+        title,
+        style: TextStyle(
+          color: isLogout ? Colors.red : Colors.black,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+      onTap: onTap,
+    );
+  }
+
+  void _navigateToProfile() {
+    Navigator.pop(context); // Close the bottom sheet
+    Get.to(() => UserProfilePage()); // Navigate to profile page
+  }
+
+  void _showAccountSettings() {
+    Navigator.pop(context);
+    Get.snackbar(
+      'Account Settings',
+      'Account settings page coming soon',
+      backgroundColor: Colors.blue[50],
+      colorText: Colors.blue[900],
+    );
+  }
+
+  void _showHelpSupport() {
+    Navigator.pop(context);
+    Get.snackbar(
+      'Help & Support',
+      'Help center will be available soon',
+      backgroundColor: Colors.blue[50],
+      colorText: Colors.blue[900],
+    );
+  }
+
+  void _handleLogout() {
+    Navigator.pop(context); // Close the bottom sheet first
+
+    Get.dialog(
+      AlertDialog(
+        title: Text('Logout', style: TextStyle(color: Colors.blue[800])),
+        content: Text('Are you sure you want to logout?'),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: Text('Cancel', style: TextStyle(color: Colors.blue)),
+          ),
+          TextButton(
+            onPressed: () {
+              Get.back(); // Close the dialog
+              _performLogout(); // Perform logout
+            },
+            child: Text('Logout', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _performLogout() {
+    // Call the logout method from the login controller
+    _loginController.logout();
+
+    Get.snackbar(
+      'Logged Out',
+      'You have been successfully logged out',
+      backgroundColor: Colors.green[50],
+      colorText: Colors.green[900],
+      snackPosition: SnackPosition.BOTTOM,
     );
   }
 }
