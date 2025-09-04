@@ -1,5 +1,4 @@
 // ignore_for_file: deprecated_member_use
-
 import 'package:sales_force_app/views/constants/colors.dart';
 import 'package:sales_force_app/widgets/custom_textfield.dart';
 import 'package:sales_force_app/controllers/auth_controller.dart';
