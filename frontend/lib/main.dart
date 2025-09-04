@@ -9,7 +9,6 @@ import 'package:sales_force_app/views/outlets/outlets_screen.dart';
 void main() {
   // Initialize controllers here
   Get.put(UserController());
-
   runApp(MyApp());
 }
 
