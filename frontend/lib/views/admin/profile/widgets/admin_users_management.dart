@@ -1,9 +1,9 @@
-// admin_users_management.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sales_force_app/controllers/user_controller.dart';
 
 class AdminUsersManagement extends StatelessWidget {
+  final UserController adminController = Get.find<UserController>();
   final UserController userController = Get.find<UserController>();
 
   @override
@@ -21,7 +21,6 @@ class AdminUsersManagement extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            // Filter and search section
             _buildFilterSection(),
             Expanded(
               child: Obx(() {
@@ -146,7 +145,7 @@ class AdminUsersManagement extends StatelessWidget {
             if (user.status == 'pending')
               IconButton(
                 icon: Icon(Icons.check_circle, color: Colors.green),
-                onPressed: () => userController.approveUser(user.id),
+                onPressed: () => adminController.approveUser(user.id),
               ),
             IconButton(
               icon: Icon(Icons.delete, color: Colors.red),
@@ -164,13 +163,10 @@ class AdminUsersManagement extends StatelessWidget {
         title: Text('Confirm Delete'),
         content: Text('Are you sure you want to delete ${user.name}?'),
         actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: Text('Cancel'),
-          ),
+          TextButton(onPressed: () => Get.back(), child: Text('Cancel')),
           TextButton(
             onPressed: () {
-              userController.deleteUser(user.id);
+              adminController.deleteUser(user.id);
               Get.back();
             },
             child: Text('Delete', style: TextStyle(color: Colors.red)),

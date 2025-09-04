@@ -7,13 +7,13 @@ import 'package:sales_force_app/controllers/user_controller.dart';
 class AppBinding extends Bindings {
   @override
   void dependencies() {
-    // LazyPut will only create the instance when it's first needed
+    // Controllers
     Get.lazyPut(() => LoginController(), fenix: true);
     Get.lazyPut(() => UserController(), fenix: true);
+    Get.lazyPut<TimeController>(() => TimeController());
 
-    // Alternatively, if you want it to be permanent (won't be disposed)
+    // Permanent instances
     Get.put(LoginController(), permanent: true);
     Get.put(UserController(), permanent: true);
-    Get.lazyPut<TimeController>(() => TimeController());
   }
 }

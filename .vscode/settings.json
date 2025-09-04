@@ -1,4 +1,4 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.configuration.updateBuildConfiguration": "automatic",
     "cmake.sourceDirectory": "C:/Users/pTech-HP/Desktop/Sales_Force_App/Salse_Force_App/frontend/linux"
 }
