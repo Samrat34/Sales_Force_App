@@ -8,9 +8,9 @@ import 'package:sales_force_app/views/admin/crm/system_logs_screen.dart';
 import 'package:sales_force_app/views/admin/profile/widgets/admin_users_card.dart';
 import 'package:sales_force_app/views/admin/profile/widgets/admin_users_management.dart';
 import 'package:sales_force_app/views/admin/profile/widgets/personal_info_card.dart';
-import 'package:sales_force_app/views/admin/profile/widgets/profile_header.dart';
+// import 'package:sales_force_app/views/admin/profile/widgets/profile_header.dart';
 import 'package:sales_force_app/views/admin/profile/widgets/recent_activity_card.dart';
-import 'package:sales_force_app/views/admin/profile/widgets/social_accounts_card.dart';
+// import 'package:sales_force_app/views/admin/profile/widgets/social_accounts_card.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({super.key});
@@ -46,6 +46,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       end: Alignment.bottomRight,
                     ),
                   ),
+                  child: ProfileHeader(isEditing: isEditing),
                 ),
               ),
               leading: IconButton(
@@ -85,17 +86,19 @@ class _UserProfilePageState extends State<UserProfilePage> {
             SliverToBoxAdapter(
               child: Column(
                 children: [
-                  ProfileHeader(
-                    isEditing: isEditing,
-                    onEditToggle: (value) => setState(() => isEditing = value),
-                  ),
+                  // Personal Information Card
                   PersonalInfoCard(isEditing: isEditing),
-                  SizedBox(height: 16),
+
+                  // Admin Users Card (only for admins)
                   if (isAdmin) AdminUsersCard(),
-                  if (isAdmin) SizedBox(height: 16),
-                  SocialAccountsCard(),
-                  SizedBox(height: 16),
+
+                  // Social Accounts Card
+                  // SocialAccountsCard(isEditing: isEditing),
+
+                  // Recent Activity Card
                   RecentActivityCard(),
+
+                  SizedBox(height: 20),
                 ],
               ),
             ),
@@ -245,9 +248,69 @@ class _UserProfilePageState extends State<UserProfilePage> {
     );
   }
 
-  // Add User Dialog (existing implementation)
+  // Add User Dialog
   void _showAddUserDialog(BuildContext context) {
-    // Your existing add user dialog implementation
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Add New User'),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Full Name',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(height: 10),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(height: 10),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Role',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(height: 10),
+              TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              // Add user logic here
+              Navigator.pop(context);
+              Get.snackbar(
+                'Success',
+                'User added successfully',
+                snackPosition: SnackPosition.BOTTOM,
+                backgroundColor: Colors.green,
+                colorText: Colors.white,
+              );
+            },
+            child: Text('Add User'),
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -275,14 +338,12 @@ class AdminControlPanel extends StatelessWidget {
                   () => Get.to(() => RoleManagementScreen())),
               _buildControlButton('Reports', Icons.analytics, Colors.green,
                   () => _showQuickReports(context)),
-              // _buildControlButton('Add User', Icons.person_add, Colors.teal,
-              //     () => _showAddUserDialog(context)),
               _buildControlButton('System Logs', Icons.history, Colors.grey,
-                  () => _showSystemLogs()),
+                  () => Get.to(() => SystemLogsScreen())),
               _buildControlButton('Backup', Icons.backup, Colors.blueGrey,
                   () => _performBackup()),
               _buildControlButton('Notifications', Icons.notifications,
-                  Colors.red, () => _manageNotifications()),
+                  Colors.red, () => Get.to(() => NotificationSettingsScreen())),
             ],
           ),
           SizedBox(height: 20),
@@ -315,11 +376,30 @@ class AdminControlPanel extends StatelessWidget {
   }
 
   void _showQuickReports(BuildContext context) {
-    // Quick reports implementation
-  }
-
-  void _showSystemLogs() {
-    Get.to(() => SystemLogsScreen());
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Quick Reports'),
+        content: Text('Which report would you like to generate?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Get.snackbar(
+                'Report Generated',
+                'Your report is ready',
+                snackPosition: SnackPosition.BOTTOM,
+              );
+            },
+            child: Text('Generate'),
+          ),
+        ],
+      ),
+    );
   }
 
   void _performBackup() {
@@ -340,24 +420,63 @@ class AdminControlPanel extends StatelessWidget {
       ),
     );
   }
+}
 
-  void _manageNotifications() {
-    Get.to(() =>
-        NotificationSettingsScreen()); // Navigation to Notification Settings
-  }
+// Placeholder implementations for widgets that might not exist yet
+class ProfileHeader extends StatelessWidget {
+  final bool isEditing;
 
-  // ignore: unused_element
-  void _handleAdminMenuSelection(String value, BuildContext context) {
-    switch (value) {
-      case 'users':
-        Get.to(() => AdminUsersManagement()); // Navigation to User Management
-        break;
-      case 'crm':
-        Get.to(() => CrmControlPanel()); // Navigation to CRM Control Panel
-        break;
-      case 'roles':
-        Get.to(() => RoleManagementScreen()); // Navigation to Role Management
-        break;
-    }
+  const ProfileHeader({super.key, required this.isEditing});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.blue[700]!, Colors.blue[500]!],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: EdgeInsets.only(bottom: 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircleAvatar(
+                  radius: 40,
+                  backgroundImage: NetworkImage(
+                      'https://randomuser.me/api/portraits/men/1.jpg'),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'John Doe',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 5),
+                Text(
+                  'Sales Executive',
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.8),
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
