@@ -155,8 +155,8 @@ class AppDrawer extends StatelessWidget {
                           isSelected: true,
                           onTap: () {
                             Navigator.pop(context);
-                            Get.toNamed('/home');
-                            // Already on dashboard, no need to navigate
+                            Get.toNamed(
+                                '/superadmin-dashboard'); // 👈 go to superadmin dashboard
                           },
                         ),
                         _buildMenuItem(
