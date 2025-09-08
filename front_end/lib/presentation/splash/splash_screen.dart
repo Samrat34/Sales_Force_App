@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../login/login_screen.dart';
+import 'package:sales_force_app/views/login/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen>
     _controller.forward();
 
     // Navigate to login screen after 3 seconds
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), () {
       Get.off(() => LoginScreen());
     });
   }
@@ -44,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -66,7 +66,7 @@ class _SplashScreenState extends State<SplashScreen>
                   width: 120,
                   height: 120,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
+                    gradient: const LinearGradient(
                       colors: [
                         Color(0xFF0066CC),
                         Color(0xFF00BFFF),
@@ -84,10 +84,14 @@ class _SplashScreenState extends State<SplashScreen>
                       ),
                     ],
                   ),
-                  child: Icon(Icons.shield, color: Colors.white, size: 60),
+                  child: const Icon(
+                    Icons.shield,
+                    color: Colors.white,
+                    size: 60,
+                  ),
                 ),
 
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
 
                 // App title with animation
                 FadeTransition(
@@ -102,14 +106,14 @@ class _SplashScreenState extends State<SplashScreen>
                         Shadow(
                           color: Colors.black.withOpacity(0.3),
                           blurRadius: 6,
-                          offset: Offset(2, 2),
+                          offset: const Offset(2, 2),
                         ),
                       ],
                     ),
                   ),
                 ),
 
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
 
                 // Tagline with animation
                 FadeTransition(
@@ -123,15 +127,15 @@ class _SplashScreenState extends State<SplashScreen>
                   ),
                 ),
 
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
 
                 // Loading indicator
-                CircularProgressIndicator(
+                const CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                   strokeWidth: 3,
                 ),
 
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Loading text
                 FadeTransition(
@@ -145,7 +149,7 @@ class _SplashScreenState extends State<SplashScreen>
                   ),
                 ),
 
-                SizedBox(height: 80),
+                const SizedBox(height: 80),
 
                 // Version info at bottom
                 Positioned(
@@ -161,7 +165,7 @@ class _SplashScreenState extends State<SplashScreen>
                             color: Colors.white.withOpacity(0.7),
                           ),
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         Text(
                           '© 2024 SalesForce Solutions',
                           style: TextStyle(

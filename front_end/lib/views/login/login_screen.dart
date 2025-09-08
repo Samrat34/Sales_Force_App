@@ -11,7 +11,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -23,14 +23,14 @@ class LoginScreen extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
-                SizedBox(height: 60),
+                const SizedBox(height: 60),
 
                 // Logo and title
                 Container(
                   width: 100,
                   height: 100,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
+                    gradient: const LinearGradient(
                       colors: [
                         Color(0xFF0066CC),
                         Color(0xFF00BFFF),
@@ -48,10 +48,14 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: Icon(Icons.shield, color: Colors.white, size: 50),
+                  child: const Icon(
+                    Icons.shield,
+                    color: Colors.white,
+                    size: 50,
+                  ),
                 ),
 
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Text(
                   'SalesForce CRM',
                   style: TextStyle(
@@ -62,13 +66,13 @@ class LoginScreen extends StatelessWidget {
                       Shadow(
                         color: Colors.black.withOpacity(0.3),
                         blurRadius: 4,
-                        offset: Offset(2, 2),
+                        offset: const Offset(2, 2),
                       ),
                     ],
                   ),
                 ),
 
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Text(
                   'Multi-tier Access Portal',
                   style: TextStyle(
@@ -77,12 +81,12 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
 
                 // Login form
                 LoginForm(),
 
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
 
                 Text(
                   'Quick Access Roles',
@@ -94,13 +98,13 @@ class LoginScreen extends StatelessWidget {
                       Shadow(
                         color: Colors.black.withOpacity(0.3),
                         blurRadius: 4,
-                        offset: Offset(2, 2),
+                        offset: const Offset(2, 2),
                       ),
                     ],
                   ),
                 ),
 
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Text(
                   'Click any role below for demo access',
                   style: TextStyle(
@@ -109,12 +113,12 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Role buttons
-                RoleButtons(),
+                const RoleButtons(),
 
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
 
                 Text(
                   'SalesForce CRM v3.0.0 - Enterprise Edition',
@@ -124,7 +128,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
 
                 Text(
                   '© 2024 SalesForce Solutions • Secure Multi-Tenant Platform',

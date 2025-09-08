@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../domain/view_models/auth_viewmodel.dart';
-import '../../../domain/models/user_role.dart';
 import 'widgets/admin_drawer.dart';
 import 'widgets/dashboard_content.dart';
 

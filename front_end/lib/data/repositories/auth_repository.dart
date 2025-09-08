@@ -6,7 +6,7 @@ class AuthRepository {
 
   Future<User?> login(String email, String password) async {
     // Simulate API call delay
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
 
     // Demo users for different roles
     final demoUsers = {

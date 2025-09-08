@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 
-class GradientButton extends StatelessWidget {
+class RoleButton extends StatelessWidget {
   final String role;
   final String subtitle;
   final String description;
   final List<Color> gradient;
   final VoidCallback onTap;
 
-  const GradientButton({
-    super.key,
+  const RoleButton({
+    Key? key,
     required this.role,
     required this.subtitle,
     required this.description,
     required this.gradient,
     required this.onTap,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: gradient,
@@ -31,15 +31,23 @@ class GradientButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              blurRadius: 8,
-              spreadRadius: 1,
+              color: Colors.black.withOpacity(0.3),
+              blurRadius: 10,
+              spreadRadius: 2,
             ),
           ],
         ),
         child: Row(
           children: [
-            const Icon(Icons.person_outline, color: Colors.white, size: 30),
+            Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Icon(Icons.person, color: Colors.white),
+            ),
             const SizedBox(width: 15),
             Expanded(
               child: Column(
@@ -48,30 +56,29 @@ class GradientButton extends StatelessWidget {
                   Text(
                     role,
                     style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
                       fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
                   ),
                   Text(
                     subtitle,
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.9),
                       fontSize: 14,
+                      color: Colors.white.withOpacity(0.9),
                     ),
                   ),
-                  const SizedBox(height: 4),
                   Text(
                     description,
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.8),
                       fontSize: 12,
+                      color: Colors.white.withOpacity(0.8),
                     ),
                   ),
                 ],
               ),
             ),
-            const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 18),
+            const Icon(Icons.arrow_forward, color: Colors.white),
           ],
         ),
       ),

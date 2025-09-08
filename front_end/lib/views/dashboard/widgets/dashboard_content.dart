@@ -348,11 +348,11 @@ class DashboardContent extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          const Row(
             children: [
-              const Icon(Icons.show_chart, color: Colors.purple),
-              const SizedBox(width: 8),
-              const Text(
+              Icon(Icons.show_chart, color: Colors.purple),
+              SizedBox(width: 8),
+              Text(
                 'Network Overview',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
@@ -406,11 +406,11 @@ class DashboardContent extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          const Row(
             children: [
-              const Icon(Icons.warning, color: Colors.orange),
-              const SizedBox(width: 8),
-              const Text(
+              Icon(Icons.warning, color: Colors.orange),
+              SizedBox(width: 8),
+              Text(
                 'System Alerts',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),

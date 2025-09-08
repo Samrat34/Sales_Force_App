@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../presentation/splash/splash_screen.dart';
-import '../presentation/login/login_screen.dart';
+import 'package:sales_force_app/presentation/splash/splash_screen.dart';
+import '../views/login/login_screen.dart';
 
 // Define your route names as constants
 class RouteNames {

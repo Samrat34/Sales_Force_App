@@ -11,7 +11,9 @@ class SplashViewModel extends GetxController {
   }
 
   Future<void> checkAuthStatus() async {
-    await Future.delayed(Duration(seconds: 3)); // Show preloader for 3 seconds
+    await Future.delayed(
+      const Duration(seconds: 3),
+    ); // Show preloader for 3 seconds
 
     final user = await _repository.getCurrentUser();
 

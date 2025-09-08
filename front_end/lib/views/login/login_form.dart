@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sales_force_app/presentation/widgets/loading_overlay.dart';
 import '../../domain/view_models/auth_viewmodel.dart';
-import '../widgets/loading_overlay.dart';
 
 class LoginForm extends StatelessWidget {
   LoginForm({Key? key}) : super(key: key);
