@@ -3,28 +3,19 @@ import 'package:sales_force_app/presentation/splash/splash_screen.dart';
 import 'package:sales_force_app/views/dashboard/dashboard_screen.dart';
 import 'package:sales_force_app/views/login/login_screen.dart';
 
-class RouteNames {
+class TestRouteNames {
   static const String splash = '/splash';
   static const String login = '/login';
   static const String dashboard = '/dashboard';
 }
 
-class AppRoutes {
+class TestRoutes {
   static final pages = [
+    GetPage(name: TestRouteNames.splash, page: () => SplashScreen()),
+    GetPage(name: TestRouteNames.login, page: () => LoginScreen()),
     GetPage(
-      name: RouteNames.splash,
-      page: () => SplashScreen(),
-      transition: Transition.fade,
-    ),
-    GetPage(
-      name: RouteNames.login,
-      page: () => LoginScreen(),
-      transition: Transition.fade,
-    ),
-    GetPage(
-      name: RouteNames.dashboard,
+      name: TestRouteNames.dashboard,
       page: () => const DashboardScreen(),
-      transition: Transition.fade,
     ),
   ];
 }

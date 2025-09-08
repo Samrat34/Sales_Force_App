@@ -1,11 +1,13 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sales_force_app/(data/models/test_routes.dart' as test_routes;
 import 'core/app_theme.dart';
-import 'core/routes.dart' as routes;
-import 'domain/view_models/auth_viewmodel.dart'; // Add this import
+import 'domain/view_models/auth_viewmodel.dart';
 
 void main() {
-  // Add this line to initialize AuthViewModel
+  // Initialize GetX dependencies
   Get.put(AuthViewModel());
 
   runApp(const MyApp());
@@ -19,9 +21,13 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'SalesForce CRM',
       theme: appTheme,
-      initialRoute: routes.RouteNames.splash,
-      getPages: routes.AppRoutes.pages,
+      initialRoute: test_routes.TestRouteNames.splash,
+      getPages: test_routes.TestRoutes.pages,
       debugShowCheckedModeBanner: false,
+      // Add routing callback for debugging
+      routingCallback: (routing) {
+        print('📱 Routing callback: ${routing?.current}');
+      },
     );
   }
 }
